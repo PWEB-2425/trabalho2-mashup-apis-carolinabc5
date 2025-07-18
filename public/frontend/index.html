@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <title>Página Principal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f3f3;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    input[type="text"] {
+      padding: 0.5rem;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px 0 0 5px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    pre {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      overflow-x: auto;
+      max-height: 300px;
+      margin-bottom: 2rem;
+    }
+    .logout-btn {
+      display: block;
+      margin: 0 auto;
+      background-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Pesquisa de Termos</h1>
+
+  <form id="searchForm">
+    <input type="text" name="termo" placeholder="Escreve o termo..." required />
+    <button type="submit">Pesquisar</button>
+  </form>
+
+  <h2>Resultados</h2>
+  <pre id="resultados">Nenhuma pesquisa feita ainda.</pre>
+
+  <h2>Histórico de Pesquisas</h2>
+  <pre id="historico">A carregar histórico...</pre>
+
+  <button class="logout-btn" onclick="logout()">Terminar Sessão</button>
+
+  <script>
+    const resultadosEl = document.getElementById('resultados');
+    const historicoEl = document.getElementById('historico');
+
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const termo = new FormData(e.target).get('termo');
+
+      const res = await fetch('/search', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ termo })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        resultadosEl.textContent = JSON.stringify(data, null, 2);
+        carregarHistorico();
+      } else {
+        resultadosEl.textContent = "Erro na pesquisa.";
+      }
+    });
+
+    async function carregarHistorico() {
+      const res = await fetch('/history', {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      if (res.ok) {
+        const historico = await res.json();
+        historicoEl.textContent = JSON.stringify(historico, null, 2);
+      } else {
+        historicoEl.textContent = "Erro ao carregar histórico.";
+      }
+    }
+
+    async function logout() {
+      const res = await fetch('/logout', {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      const msg = await res.json();
+      alert(msg.message);
+      window.location.href = '/login.html';
+    }
+
+    // Carregar histórico ao abrir a página
+    carregarHistorico();
+  </script>
+
+</body>
+</html>

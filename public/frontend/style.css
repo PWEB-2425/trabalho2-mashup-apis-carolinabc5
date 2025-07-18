@@ -1,0 +1,130 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+/* Container central */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+/* Títulos */
+h1, h2 {
+  margin-bottom: 20px;
+  color: #1e2a78;
+  text-align: center;
+}
+
+/* Formulários */
+form {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(30, 42, 120, 0.15);
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 30px;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #1e2a78;
+  box-shadow: 0 0 5px #1e2a78;
+}
+
+/* Botões */
+button {
+  width: 100%;
+  background-color: #1e2a78;
+  color: white;
+  border: none;
+  padding: 14px 0;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+}
+
+button:hover {
+  background-color: #3046c0;
+}
+
+/* Resultados e histórico */
+#results {
+  white-space: pre-wrap;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(30, 42, 120, 0.1);
+  max-width: 700px;
+  margin-bottom: 30px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #1e2a78;
+}
+
+#history {
+  max-width: 700px;
+  list-style: none;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(30, 42, 120, 0.1);
+}
+
+#history li {
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e7ff;
+  color: #3a3f51;
+}
+
+#history li:last-child {
+  border-bottom: none;
+}
+
+/* Botão Logout */
+#logoutBtn {
+  max-width: 400px;
+  margin-top: 10px;
+  background-color: #d93025;
+  transition: background-color 0.3s ease;
+}
+
+#logoutBtn:hover {
+  background-color: #a3241f;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  form {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  #results, #history {
+    max-width: 100%;
+  }
+}

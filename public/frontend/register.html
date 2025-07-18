@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <title>Registo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <h1>Registar Novo Utilizador</h1>
+  <form id="registerForm">
+    <input type="text" name="username" placeholder="Nome de utilizador" required><br>
+    <input type="password" name="password" placeholder="Palavra-passe" required><br>
+    <button type="submit">Registar</button>
+  </form>
+  <p>Já tens conta? <a href="/login.html">Iniciar sessão</a></p>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = new FormData(e.target);
+      const data = {
+        username: form.get('username'),
+        password: form.get('password')
+      };
+
+      const res = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      alert(result.message);
+
+      if (res.ok) window.location.href = '/login.html';
+    });
+  </script>
+</body>
+</html>

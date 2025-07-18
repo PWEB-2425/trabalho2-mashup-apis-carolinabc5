@@ -1,0 +1,50 @@
+<!-- dashboard.html -->
+<form id="searchForm">
+  <input type="text" name="termo" placeholder="Pesquisar" required>
+  <button type="submit">Pesquisar</button>
+</form>
+
+<pre id="resultados"></pre>
+<pre id="historico"></pre>
+<button onclick="logout()">Logout</button>
+
+<script>
+document.getElementById('searchForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const termo = new FormData(e.target).get('termo');
+
+  const response = await fetch('/search', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ termo })
+  });
+
+  const data = await response.json();
+  document.getElementById('resultados').textContent = JSON.stringify(data, null, 2);
+  carregarHistorico();
+});
+
+async function carregarHistorico() {
+  const response = await fetch('/history', {
+    method: 'GET',
+    credentials: 'include'
+  });
+
+  const historico = await response.json();
+  document.getElementById('historico').textContent = JSON.stringify(historico, null, 2);
+}
+
+async function logout() {
+  const response = await fetch('/logout', {
+    method: 'GET',
+    credentials: 'include'
+  });
+  const res = await response.json();
+  alert(res.message);
+  window.location.href = '/login.html';
+}
+
+// Carregar histórico ao abrir
+carregarHistorico();
+</script>
